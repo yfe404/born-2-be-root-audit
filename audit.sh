@@ -60,13 +60,14 @@ for part in "${EXPECTED_PARTITIONS[@]}"; do
 done
 
 # Bonus: Check for additional partitions
+log_section "Partitioning Check bonus"
 BONUS_PARTITIONS=("var" "srv" "tmp")
 for part in "${BONUS_PARTITIONS[@]}"; do
-    if echo "$PARTITIONS" | grep -q "$part"; then
-        log "[OK] Bonus partition $part exists."
-    else
-        log "[WARNING] Bonus partition $part is missing."
-    fi
+	if lsblk | grep -q "$part"; then
+		log "[OK] Partition $part exists."
+	else
+		log "[ERROR] Partition $part is missing."
+	fi
 done
 
 # --- 5. Check Encrypted LVM ---
