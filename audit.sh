@@ -51,13 +51,12 @@ fi
 # --- 4. Check Partitioning ---
 log_section "Partitioning Check"
 EXPECTED_PARTITIONS=("boot" "root" "swap" "home")
-PARTITIONS=$(lsblk | grep -E "boot|root|swap|home" | awk '{print $1}')
 for part in "${EXPECTED_PARTITIONS[@]}"; do
-    if echo "$PARTITIONS" | grep -q "$part"; then
-        log "[OK] Partition $part exists."
-    else
-        log "[ERROR] Partition $part is missing."
-    fi
+	if lsblk | grep -q "$part"; then
+		log "[OK] Partition $part exists."
+	else
+		log "[ERROR] Partition $part is missing."
+	fi
 done
 
 # Bonus: Check for additional partitions
